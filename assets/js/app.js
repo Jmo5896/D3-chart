@@ -34,6 +34,10 @@ getCircle();
 //axes labeling
 //BOTTOM AXIS================================================
 
+//These should help clean-up our transform later
+let botTextX = (width - labelArea) / 2 + labelArea;
+let botTextY = height - margin - textPaddingBot;
+
 //create a group element for our bottom axis (we'll be using the 'g')
 svg.append('g').attr('class', 'xText'); // creates a child in the svg element that is <g></g>
 //lets access our tag by targeting its class
@@ -44,7 +48,7 @@ let xText = d3.select('.xText');
 function xTextRefresh() {
   xText.attr(
     'transform',
-    `translate(${(width - labelArea) / 2 + labelArea}, ${height - margin - textPaddingBot})`
+    `translate(${botTextX}, ${botTextY})`
   );
 }
 xTextRefresh();
@@ -87,5 +91,27 @@ let leftTextY = (height + labelArea) / 2 - labelArea;
 
 //now lets create our label space with another g tag (<g></g>)
 svg.append('g').attr('class', 'yText');
+
+let yText = d3.select('.yText');
+
+//same as before dynamic function for y axis
+function yTextRefresh() {
+  yText.attr(
+    "transform",
+    "translate(" + leftTextX + ", " + leftTextY + ")rotate(-90)"
+  );
+}
+yTextRefresh();
+
+//OBESITY
+yText
+  .append('text')
+  .attr('y', -26)
+  .attr('data-name', 'obesity')
+  .attr('data-axis', 'y')
+  .attr('class', 'aText active y')
+  .text('Obese (%)');
+
+  
 
 //LEFT AXIS==================================================
