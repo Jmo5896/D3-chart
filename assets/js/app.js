@@ -131,3 +131,28 @@ yText
 .text('Lacks Healthcare (%)');
 
 //LEFT AXIS==================================================
+
+//IMPORT .CSV DATA===========================================
+
+d3.csv('assets/data/data.csv').then(data => visualize(data));
+
+//IMPORT .CSV DATA===========================================
+
+//SETTING UP THE VISUALIZE FUNCTION(everything else goes here)
+
+function visualize(theData) {
+  //these will determine which data goes where
+  let dataX = 'poverty';
+  let dataY = 'obesity';
+
+  //empty variables to store our min and max values
+  let xMin;
+  let xMax;
+  let yMin;
+  let yMax;
+
+  //now to set up our tool-tip (d3-tip.js)
+  
+}
+
+//SETTING UP THE VISUALIZE FUNCTION(everything else goes here)
