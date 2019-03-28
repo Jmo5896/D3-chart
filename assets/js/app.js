@@ -98,7 +98,7 @@ let yText = d3.select('.yText');
 function yTextRefresh() {
   yText.attr(
     "transform",
-    "translate(" + leftTextX + ", " + leftTextY + ")rotate(-90)"
+    "translate(" + leftTextX + ", " + leftTextY + ")rotate(-90)" //the rotate is thrown in so the labels are parrallel to the y-axis
   );
 }
 yTextRefresh();
@@ -106,12 +106,28 @@ yTextRefresh();
 //OBESITY
 yText
   .append('text')
-  .attr('y', -26)
+  .attr('y', 26)
   .attr('data-name', 'obesity')
   .attr('data-axis', 'y')
   .attr('class', 'aText active y')
   .text('Obese (%)');
 
-  
+//SMOKES
+yText
+  .append('text')
+  .attr('y', 0)
+  .attr('data-name', 'smokes')
+  .attr('data-axis', 'y')
+  .attr('class', 'aText inactive y')
+  .text('Smokes (%)');
+
+//LACKS HEALTHCARE
+yText
+.append('text')
+.attr('y', -26)
+.attr('data-name', 'healthcare')
+.attr('data-axis', 'y')
+.attr('class', 'aText inactive y')
+.text('Lacks Healthcare (%)');
 
 //LEFT AXIS==================================================
