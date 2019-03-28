@@ -78,3 +78,14 @@ xText
     .text('Household Income (Median)');
 
 //BOTTOM AXIS================================================
+
+//LEFT AXIS==================================================
+
+//These should help clean-up our transform later
+let leftTextX = margin + textPaddingLeft;
+let leftTextY = (height + labelArea) / 2 - labelArea;
+
+//now lets create our label space with another g tag (<g></g>)
+svg.append('g').attr('class', 'yText');
+
+//LEFT AXIS==================================================
