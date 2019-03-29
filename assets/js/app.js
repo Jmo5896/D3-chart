@@ -195,6 +195,32 @@ function visualize(theData) {
   xMinMax();
   yMinMax();
 
+  //this seems like an awful way to set up min and max, may look into a different way but will keep for now
+  //lets create some scales using our min and max's
+  let xScale = d3.scaleLinear()
+    .domain([xMin, xMax])//no idea what this does
+    .range([margin + labelArea, width - margin]);//pure magic
+  
+  let yScale = d3.scaleLinear()
+    .domain([yMin, yMax])
+    .range([height - margin - labelArea, margin]);
+  
+  //now we'll pass these scales into the axes
+  let xAxis = d3.axisBottom(xScale);
+  let yAxis = d3.axisLeft(yScale);
+
+  //now for the tick count
+  function tickCount() {
+    if (width <= 500) {
+      xAxis.ticks(5);
+      yAxis.ticks(5);
+    } else {
+      xAxis.ticks(10);
+      yAxis.ticks(10);
+    }
+  }
+  tickCount();
+  
   //POPULATE SCATTER PLOT======================================
 }
 //SETTING UP THE VISUALIZE FUNCTION(everything else goes here)
