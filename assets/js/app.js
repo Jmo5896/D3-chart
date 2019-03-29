@@ -43,43 +43,39 @@ svg.append('g').attr('class', 'xText'); // creates a child in the svg element th
 //lets access our tag by targeting its class
 let xText = d3.select('.xText');
 
-
 //again, based off of the fact that we have a dynamic width we want our labels to move with the width this allows that to happen
 function xTextRefresh() {
-  xText.attr(
-    'transform',
-    `translate(${botTextX}, ${botTextY})`
-  );
+  xText.attr('transform', `translate(${botTextX}, ${botTextY})`);
 }
 xTextRefresh();
 
 //Now, lets add our actual labels, we will be adding 3 just to cover the bonus of this project
 //POVERTY LABEL
 xText
-    .append('text')
-    .attr('y', -26)
-    .attr('data-name', 'poverty')
-    .attr('data-axis', 'x')
-    .attr('class', 'aText active x') //this active class will switch to inactive later on click 
-    .text('In Poverty (%)');
+  .append('text')
+  .attr('y', -26)
+  .attr('data-name', 'poverty')
+  .attr('data-axis', 'x')
+  .attr('class', 'aText active x') //this active class will switch to inactive later on click
+  .text('In Poverty (%)');
 
 //AGE LABEL
 xText
-    .append('text')
-    .attr('y', 0)
-    .attr('data-name', 'age')
-    .attr('data-axis', 'x')
-    .attr('class', 'aText inactive x')
-    .text('Age (Median)');
+  .append('text')
+  .attr('y', 0)
+  .attr('data-name', 'age')
+  .attr('data-axis', 'x')
+  .attr('class', 'aText inactive x')
+  .text('Age (Median)');
 
 //INCOME LABEL
 xText
-    .append('text')
-    .attr('y', 26)
-    .attr('data-name', 'income')
-    .attr('data-axis', 'x')
-    .attr('class', 'aText inactive x')
-    .text('Household Income (Median)');
+  .append('text')
+  .attr('y', 26)
+  .attr('data-name', 'income')
+  .attr('data-axis', 'x')
+  .attr('class', 'aText inactive x')
+  .text('Household Income (Median)');
 
 //BOTTOM AXIS================================================
 
@@ -97,8 +93,8 @@ let yText = d3.select('.yText');
 //same as before dynamic function for y axis
 function yTextRefresh() {
   yText.attr(
-    "transform",
-    "translate(" + leftTextX + ", " + leftTextY + ")rotate(-90)" //the rotate is thrown in so the labels are parrallel to the y-axis
+    'transform',
+    'translate(' + leftTextX + ', ' + leftTextY + ')rotate(-90)' //the rotate is thrown in so the labels are parrallel to the y-axis
   );
 }
 yTextRefresh();
@@ -123,12 +119,12 @@ yText
 
 //LACKS HEALTHCARE
 yText
-.append('text')
-.attr('y', -26)
-.attr('data-name', 'healthcare')
-.attr('data-axis', 'y')
-.attr('class', 'aText inactive y')
-.text('Lacks Healthcare (%)');
+  .append('text')
+  .attr('y', -26)
+  .attr('data-name', 'healthcare')
+  .attr('data-axis', 'y')
+  .attr('class', 'aText inactive y')
+  .text('Lacks Healthcare (%)');
 
 //LEFT AXIS==================================================
 
@@ -152,13 +148,14 @@ function visualize(theData) {
   let yMax;
 
   //now to set up our tool-tip (d3-tip.js)
-  let toolTip = d3.tip()
+  let toolTip = d3
+    .tip()
     .attr('class', 'd3-tip')
     .offset([40, -60])
     .html(d => {
-      let xKey = `<div>${dataX}: ${d[dataX]}%</div>`;//we will set the value in a conditional below
-      let theState = `<div>${d.state}</div>`;//??? no idea what state is
-      let yKey = `<div>${dataY}: ${d[dataY]}%</div>`//d magic(can't figure out how to look at the d object)
+      let xKey = `<div>${dataX}: ${d[dataX]}%</div>`; //we will set the value in a conditional below
+      let theState = `<div>${d.state}</div>`; //??? no idea what state is
+      let yKey = `<div>${dataY}: ${d[dataY]}%</div>`; //d magic(can't figure out how to look at the d object)
       //cut some things out that seemed very uneeded, we will see
       return theState + xKey + yKey;
     });
@@ -170,15 +167,27 @@ function visualize(theData) {
 
 //x min and max func
 function xMinMax() {
-  xMin = d3.min(theData, d => parseFloat(d[dataX]) * .9); //somehow grabs smallest one
-  xMax = d3.max(theData, d => parseFloat(d[dataX]) * 1.1) //somhow grabs the biggest (mystery)
+  xMin = d3.min(theData, d => parseFloat(d[dataX]) * 0.9); //somehow grabs smallest one
+  xMax = d3.max(theData, d => parseFloat(d[dataX]) * 1.1); //somhow grabs the biggest (mystery)
 }
 
 //y min and max func
 function yMinMax() {
-  yMin = d3.min(theData, d => parseFloat(d[dataY]) * .9); //somehow grabs smallest one
-  yMax = d3.max(theData, d => parseFloat(d[dataY]) * 1.1) //somhow grabs the biggest (mystery)
+  yMin = d3.min(theData, d => parseFloat(d[dataY]) * 0.9); //somehow grabs smallest one
+  yMax = d3.max(theData, d => parseFloat(d[dataY]) * 1.1); //somhow grabs the biggest (mystery)
 }
 
+//this function will be used to switch our label classes between active and inactive
+function labelChange(axis, clickedText) {
+  //switches active to inactive
+  d3.selectAll('.aText')
+    .filter('.' + axis)
+    .filter('.active')
+    .classed('active', false)
+    .classed('inactive', true);
+
+  //switches clicked label from inactive to active
+  clickedText.classed('inactive', false).classed('active', true);
+}
 //FUNCTIONS==================================================
 //SETTING UP THE VISUALIZE FUNCTION(everything else goes here)
