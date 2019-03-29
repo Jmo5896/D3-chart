@@ -161,33 +161,40 @@ function visualize(theData) {
     });
   //lets use the toolTip
   svg.call(toolTip);
+
+  //FUNCTIONS==================================================
+
+  //x min and max func
+  function xMinMax() {
+    xMin = d3.min(theData, d => parseFloat(d[dataX]) * 0.9); //somehow grabs smallest one
+    xMax = d3.max(theData, d => parseFloat(d[dataX]) * 1.1); //somhow grabs the biggest (mystery)
+  }
+
+  //y min and max func
+  function yMinMax() {
+    yMin = d3.min(theData, d => parseFloat(d[dataY]) * 0.9); //somehow grabs smallest one
+    yMax = d3.max(theData, d => parseFloat(d[dataY]) * 1.1); //somhow grabs the biggest (mystery)
+  }
+
+  //this function will be used to switch our label classes between active and inactive
+  function labelChange(axis, clickedText) {
+    //switches active to inactive
+    d3.selectAll('.aText')
+      .filter('.' + axis)
+      .filter('.active')
+      .classed('active', false)
+      .classed('inactive', true);
+
+    //switches clicked label from inactive to active
+    clickedText.classed('inactive', false).classed('active', true);
+  }
+  //FUNCTIONS==================================================
+
+  //POPULATE SCATTER PLOT======================================
+
+  xMinMax();
+  yMinMax();
+
+  //POPULATE SCATTER PLOT======================================
 }
-
-//FUNCTIONS==================================================
-
-//x min and max func
-function xMinMax() {
-  xMin = d3.min(theData, d => parseFloat(d[dataX]) * 0.9); //somehow grabs smallest one
-  xMax = d3.max(theData, d => parseFloat(d[dataX]) * 1.1); //somhow grabs the biggest (mystery)
-}
-
-//y min and max func
-function yMinMax() {
-  yMin = d3.min(theData, d => parseFloat(d[dataY]) * 0.9); //somehow grabs smallest one
-  yMax = d3.max(theData, d => parseFloat(d[dataY]) * 1.1); //somhow grabs the biggest (mystery)
-}
-
-//this function will be used to switch our label classes between active and inactive
-function labelChange(axis, clickedText) {
-  //switches active to inactive
-  d3.selectAll('.aText')
-    .filter('.' + axis)
-    .filter('.active')
-    .classed('active', false)
-    .classed('inactive', true);
-
-  //switches clicked label from inactive to active
-  clickedText.classed('inactive', false).classed('active', true);
-}
-//FUNCTIONS==================================================
 //SETTING UP THE VISUALIZE FUNCTION(everything else goes here)
