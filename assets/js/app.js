@@ -152,7 +152,19 @@ function visualize(theData) {
   let yMax;
 
   //now to set up our tool-tip (d3-tip.js)
-  
+  let toolTip = d3.tip()
+    .attr('class', 'd3-tip')
+    .offset([40, -60])
+    .html(d => {
+      let xKey = `<div>${dataX}: ${d[dataX]}%</div>`;//we will set the value in a conditional below
+      let theState = `<div>${d.state}</div>`;//??? no idea what state is
+      let yKey = `<div>${dataY}: ${d[dataY]}%</div>`//d magic(can't figure out how to look at the d object)
+
+   
+      return theState + xKey + yKey;
+    });
+  //lets use the toolTip
+  svg.call(toolTip);
 }
 
 //SETTING UP THE VISUALIZE FUNCTION(everything else goes here)
