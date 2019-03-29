@@ -1,4 +1,4 @@
-//I coded this can delete if necesarry
+'use strict';
 
 //section 1 set up data and get ready for chart creation
 let width = parseInt(d3.select('#scatter').style('width')); //selecting html element and giving it some css with style
@@ -159,12 +159,26 @@ function visualize(theData) {
       let xKey = `<div>${dataX}: ${d[dataX]}%</div>`;//we will set the value in a conditional below
       let theState = `<div>${d.state}</div>`;//??? no idea what state is
       let yKey = `<div>${dataY}: ${d[dataY]}%</div>`//d magic(can't figure out how to look at the d object)
-
-   
+      //cut some things out that seemed very uneeded, we will see
       return theState + xKey + yKey;
     });
   //lets use the toolTip
   svg.call(toolTip);
 }
 
+//FUNCTIONS==================================================
+
+//x min and max func
+function xMinMax() {
+  xMin = d3.min(theData, d => parseFloat(d[dataX]) * .9); //somehow grabs smallest one
+  xMax = d3.max(theData, d => parseFloat(d[dataX]) * 1.1) //somhow grabs the biggest (mystery)
+}
+
+//y min and max func
+function yMinMax() {
+  yMin = d3.min(theData, d => parseFloat(d[dataY]) * .9); //somehow grabs smallest one
+  yMax = d3.max(theData, d => parseFloat(d[dataY]) * 1.1) //somhow grabs the biggest (mystery)
+}
+
+//FUNCTIONS==================================================
 //SETTING UP THE VISUALIZE FUNCTION(everything else goes here)
