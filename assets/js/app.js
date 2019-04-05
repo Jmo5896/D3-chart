@@ -153,10 +153,10 @@ function visualize(theData) {
     .attr('class', 'd3-tip')
     .offset([40, -60])
     .html(d => {
-      let xKey = `<div>${dataX}: ${d[dataX]}%</div>`; //we will set the value in a conditional below
+      let xKey = `<div>${dataX}: ${d[dataX]}%</div>`;//sets our default //we will set the value in a conditional below
       let theState = `<div>${d.state}</div>`; //??? no idea what state is
       let yKey = `<div>${dataY}: ${d[dataY]}%</div>`; //d magic(can't figure out how to look at the d object)
-      //cut some things out that seemed very uneeded, we will see
+      
       return theState + xKey + yKey;
     });
   //lets use the toolTip
@@ -240,14 +240,14 @@ function visualize(theData) {
     .attr('cx', d => xScale(d[dataX]))
     .attr('cy', d => yScale(d[dataY]))
     .attr('r', circRadius)
-    .attr('class', d => `stateCircle ${d.abbr}`) //need to check what d.abbr is
-    .on('mouseover', d => {
+    .attr('class', d => `stateCircle ${d.abbr}`) //this pulls the US state abbreviation from the d object
+    .on('mouseover', function(d){
       toolTip.show(d, this);
-      d3.select(this).style('stroke', "#323232")
+      d3.select(this).style('stroke', "#323232");
     })
-    .on('mouseout', d => {
-      toolTip.hide(d)
-      d3.select(this).style('stroke', "#e3e3e3")
+    .on('mouseout', function(d){
+      toolTip.hide(d);
+      d3.select(this).style('stroke', "#e3e3e3");
     });
   //POPULATE SCATTER PLOT======================================
 }
