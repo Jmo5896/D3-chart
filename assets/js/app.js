@@ -220,7 +220,35 @@ function visualize(theData) {
     }
   }
   tickCount();
+
+  //now to create more group tags (<g></g>) to store our axes
+  svg.append('g') //xaxis
+    .call(xAxis)
+    .attr('class', 'xAxis')
+    .attr('transform', `translate(0, ${height - margin - labelArea})`);
+  svg.append('g') //yaxis
+    .call(yAxis)
+    .attr('class', 'yAxis')
+    .attr('transform', `translate(${margin + labelArea}, 0)`);
   
+  //Lets create our actual dots
+  let theCircles = svg.selectAll('g theCircle').data(theData).enter();
+
+
+  //lets populate our graph with theCircles
+  theCircles.append('circle')
+    .attr('cx', d => xScale(d[dataX]))
+    .attr('cy', d => yScale(d[dataY]))
+    .attr('r', circRadius)
+    .attr('class', d => `stateCircle ${d.abbr}`) //need to check what d.abbr is
+    .on('mouseover', d => {
+      toolTip.show(d, this);
+      d3.select(this).style('stroke', "#323232")
+    })
+    .on('mouseout', d => {
+      toolTip.hide(d)
+      d3.select(this).style('stroke', "#e3e3e3")
+    });
   //POPULATE SCATTER PLOT======================================
 }
 //SETTING UP THE VISUALIZE FUNCTION(everything else goes here)
