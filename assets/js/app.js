@@ -250,5 +250,26 @@ function visualize(theData) {
       d3.select(this).style('stroke', "#e3e3e3");
     });
   //POPULATE SCATTER PLOT======================================
+
+  //LABEL SCATTER POINTS W/ STATE ABREVIATIONS=================
+
+  theCircles.append('text')
+    .text(d => d.abbr)
+    .attr('dx', d => xScale(d[dataX]))
+    //this should center the state abbr into the middle of the circle
+    .attr('dy', d => yScale(d[dataY]) + circRadius / 2.5)
+    .attr('font-size', circRadius)
+    .attr('class', 'stateText')
+    .on('mouseover', d => {
+      toolTip.show(d);
+      //highlight the circles border
+      d3.select('.' + d.abbr).style('stroke', "#323232");
+    })
+    .on('mouseout', d => {
+      toolTip.hide(d);
+      d3.select('.' + d.abbr).style("stroke", "#e3e3e3");
+    })
+
+  //LABEL SCATTER POINTS W/ STATE ABREVIATIONS=================
 }
 //SETTING UP THE VISUALIZE FUNCTION(everything else goes here)
