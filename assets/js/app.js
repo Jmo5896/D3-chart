@@ -294,7 +294,10 @@ function visualize(theData) {
         xScale.domain([xMin, xMax]);
 
         //make it look smoother with a transition
-        svg.select('.xAxis').transition().duration(300).call(xAxis);
+        svg.select('.xAxis')
+          .transition()
+          .duration(300)
+          .call(xAxis);
 
         //x should be all changed up so now we need to change the position of our state circles
         d3.selectAll('circle').each(function() {
@@ -315,6 +318,36 @@ function visualize(theData) {
 
         //change make the active to inactive label switch
         labelChange(axis, self);
+      } else {
+        //this will alter the y-axis
+        dataY = name;
+  
+        yMinMax();
+  
+        yScale.domain([yMin, yMax]);
+  
+        svg.select('.yAxis')
+          .transition()
+          .duration(300)
+          .call(yAxis);
+  
+        d3.selectAll('circle').each(function() {
+  
+          d3.select(this)
+            .transition()
+            .attr('cy', d => yScale(d[dataY]))
+            .duration(300);
+        });
+  
+        d3.selectAll('.stateText').each(function() {
+          d3.select(this)
+            .transition()
+            .attr('dy', d => yScale(d[dataY]) + circRadius / 3)
+            .duration(300);
+        });
+  
+        labelChange(axis, self);
+        
       }
     }
   });
