@@ -271,5 +271,54 @@ function visualize(theData) {
     })
 
   //LABEL SCATTER POINTS W/ STATE ABREVIATIONS=================
+
+  //HOOKING UP THE GRAPH TO BE DYNAMIC=========================
+  
+  //first we need to select all AXIS text and add a click event
+  d3.selectAll('.aText').on('click', function() {
+    let self = d3.select(this);
+    // console.log(self.attr('data-axis'));
+    //build conditional so that this function only runs on inactive labels
+    if (self.classed('inactive')) {
+      let axis = self.attr('data-axis');
+      let name = self.attr('data-name');
+
+      if (axis === 'x') {
+        //dataX and dataY originally start off as poverty and obese, this switches dataX to whichever X label was selected
+        dataX = name;
+
+        //recalibrate x axis so that it scales to the newly selected data
+        xMinMax();
+
+        //update our x domain
+        xScale.domain([xMin, xMax]);
+
+        //make it look smoother with a transition
+        svg.select('.xAxis').transition().duration(300).call(xAxis);
+
+        //x should be all changed up so now we need to change the position of our state circles
+        d3.selectAll('circle').each(function() {
+          //this should give some animation/life to when the circles switch locations for there new data
+          d3.select(this)
+            .transition()
+            .attr('cx', d => xScale(d[dataX]))
+            .duration(300);
+        });
+
+        //now that the circles have shifted we need to now shift the text as well
+        d3.selectAll('.stateText').each(function() {
+          d3.select(this)
+            .transition()
+            .attr('dx', d => xScale(d[dataX]))
+            .duration(300);
+        });
+
+        //change make the active to inactive label switch
+        labelChange(axis, self);
+      }
+    }
+  });
+  
+  //HOOKING UP THE GRAPH TO BE DYNAMIC=========================
 }
 //SETTING UP THE VISUALIZE FUNCTION(everything else goes here)
